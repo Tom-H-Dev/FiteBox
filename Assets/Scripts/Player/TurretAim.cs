@@ -28,6 +28,8 @@ public class TurretAim : MonoBehaviour
 
     private void TurretRotaion()
     {
+        //TODO: Check if gamepad rotation or if keyboard is used and swap UI and the way of aiming so if looking with mouse and keyboard or turn with controller
+
         Vector2 mousePosition = _playerActions.PlayerMovement.MousePostition.ReadValue<Vector2>();
         Vector3 mouseViewportPosition = mainCam.ScreenToWorldPoint(new Vector3(mousePosition.x, mousePosition.y, mainCam.transform.position.y));
         Vector3 positionToLookAt;

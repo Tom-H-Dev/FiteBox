@@ -213,6 +213,45 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""PlayerCombat"",
+            ""id"": ""8ff05b42-923f-49ce-a3d1-1c846f1fd132"",
+            ""actions"": [
+                {
+                    ""name"": ""Shoot"",
+                    ""type"": ""Button"",
+                    ""id"": ""422d90f4-7265-4276-b33f-6ac3f8cdf3c5"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""8e6dd08b-f97c-419e-bb8e-7610a1f5dada"",
+                    ""path"": ""<Mouse>/press"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Shoot"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""63cf52e0-8abb-4c1d-a02c-35b0bfe08668"",
+                    ""path"": ""<Gamepad>/rightTrigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Shoot"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": []
@@ -221,6 +260,9 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         m_PlayerMovement = asset.FindActionMap("PlayerMovement", throwIfNotFound: true);
         m_PlayerMovement_Movement = m_PlayerMovement.FindAction("Movement", throwIfNotFound: true);
         m_PlayerMovement_MousePostition = m_PlayerMovement.FindAction("MousePostition", throwIfNotFound: true);
+        // PlayerCombat
+        m_PlayerCombat = asset.FindActionMap("PlayerCombat", throwIfNotFound: true);
+        m_PlayerCombat_Shoot = m_PlayerCombat.FindAction("Shoot", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -332,9 +374,59 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         }
     }
     public PlayerMovementActions @PlayerMovement => new PlayerMovementActions(this);
+
+    // PlayerCombat
+    private readonly InputActionMap m_PlayerCombat;
+    private List<IPlayerCombatActions> m_PlayerCombatActionsCallbackInterfaces = new List<IPlayerCombatActions>();
+    private readonly InputAction m_PlayerCombat_Shoot;
+    public struct PlayerCombatActions
+    {
+        private @PlayerInput m_Wrapper;
+        public PlayerCombatActions(@PlayerInput wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Shoot => m_Wrapper.m_PlayerCombat_Shoot;
+        public InputActionMap Get() { return m_Wrapper.m_PlayerCombat; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(PlayerCombatActions set) { return set.Get(); }
+        public void AddCallbacks(IPlayerCombatActions instance)
+        {
+            if (instance == null || m_Wrapper.m_PlayerCombatActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_PlayerCombatActionsCallbackInterfaces.Add(instance);
+            @Shoot.started += instance.OnShoot;
+            @Shoot.performed += instance.OnShoot;
+            @Shoot.canceled += instance.OnShoot;
+        }
+
+        private void UnregisterCallbacks(IPlayerCombatActions instance)
+        {
+            @Shoot.started -= instance.OnShoot;
+            @Shoot.performed -= instance.OnShoot;
+            @Shoot.canceled -= instance.OnShoot;
+        }
+
+        public void RemoveCallbacks(IPlayerCombatActions instance)
+        {
+            if (m_Wrapper.m_PlayerCombatActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        public void SetCallbacks(IPlayerCombatActions instance)
+        {
+            foreach (var item in m_Wrapper.m_PlayerCombatActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_PlayerCombatActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    public PlayerCombatActions @PlayerCombat => new PlayerCombatActions(this);
     public interface IPlayerMovementActions
     {
         void OnMovement(InputAction.CallbackContext context);
         void OnMousePostition(InputAction.CallbackContext context);
+    }
+    public interface IPlayerCombatActions
+    {
+        void OnShoot(InputAction.CallbackContext context);
     }
 }

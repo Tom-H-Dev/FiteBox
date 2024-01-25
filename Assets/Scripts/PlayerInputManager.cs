@@ -20,10 +20,12 @@ public class PlayerInputManager : MonoBehaviour
     private void OnEnable()
     {
         playerActions.PlayerMovement.Enable();
+        playerActions.PlayerCombat.Enable();
     }
     private void OnDisable()
     {
         playerActions.PlayerMovement.Disable();
+        playerActions.PlayerCombat.Disable();
     }
     #endregion
 }

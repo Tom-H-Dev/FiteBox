@@ -13,10 +13,14 @@ public class PlayerMovement : MonoBehaviour
 
     private void Awake()
     {
-        //_playerActions = new Player();
         _rb = GetComponent<Rigidbody>();
         if (_rb is null)
             Debug.LogError("Rigidbody is NULL!");
+    }
+
+    private void Start()
+    {
+        _playerActions = PlayerInputManager.instance.playerActions;
     }
 
     private void FixedUpdate()
@@ -27,17 +31,4 @@ public class PlayerMovement : MonoBehaviour
             _rb.velocity = _moveInput * _speed;
         }
     }
-
-
-
-    #region input map
-    private void OnEnable()
-    {
-        _playerActions.PlayerMovement.Enable();
-    }
-    private void OnDisable()
-    {
-        _playerActions.PlayerMovement.Disable();
-    }
-    #endregion
 }

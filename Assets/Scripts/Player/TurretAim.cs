@@ -29,20 +29,14 @@ public class TurretAim : MonoBehaviour
     private void TurretRotaion()
     {
         Vector2 mousePosition = _playerActions.PlayerMovement.MousePostition.ReadValue<Vector2>();
-
-        var mousePositionZ = mainCam.farClipPlane * .5f;
-
         Vector3 mouseViewportPosition = mainCam.ScreenToWorldPoint(new Vector3(mousePosition.x, mousePosition.y, mainCam.transform.position.y));
-
         Vector3 positionToLookAt;
 
         positionToLookAt.x = mouseViewportPosition.x;
         positionToLookAt.y = 0.0f;
-        //positionToLookAt.z = currentMovement.z;
         positionToLookAt.z = mouseViewportPosition.z;
 
         Quaternion currentRotation = transform.rotation;
-
         Quaternion targetRotation = Quaternion.LookRotation(positionToLookAt - transform.position);
         transform.rotation = Quaternion.Slerp(currentRotation, targetRotation, rotationFactorPerFrame * Time.deltaTime);
     }

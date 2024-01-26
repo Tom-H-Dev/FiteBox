@@ -1,9 +1,10 @@
+using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 
-public class TurretAim : MonoBehaviour
+public class TurretAim : MonoBehaviourPunCallbacks
 {
     private GameObject _playerTurret;
     private Vector2 mousePOs;
@@ -14,6 +15,8 @@ public class TurretAim : MonoBehaviour
     [SerializeField] private GameObject _bullet;
     [SerializeField] private GameObject _shootPosition;
 
+    private bool hasShot = false;
+
     void Start()
     {
         _playerTurret = gameObject;
@@ -23,7 +26,10 @@ public class TurretAim : MonoBehaviour
 
     void Update()
     {
-        TurretRotaion();
+        if (photonView.IsMine)
+        {
+            TurretRotaion();
+        }
     }
 
     private void TurretRotaion()
@@ -45,6 +51,17 @@ public class TurretAim : MonoBehaviour
 
     private void ShootTurret()
     {
-        GameObject l_bullet = Instantiate(_bullet, _shootPosition.transform.position, _playerTurret.transform.rotation);
+        if (!hasShot && photonView.IsMine)
+        {
+            GameObject l_bullet = Instantiate(_bullet, _shootPosition.transform.position, _shootPosition.transform.rotation);
+            hasShot = true;
+            StartCoroutine(ShotTimer());
+        }
+    }
+
+    private IEnumerator ShotTimer()
+    {
+        yield return new WaitForSeconds(0.5f);
+        hasShot = false;
     }
 }

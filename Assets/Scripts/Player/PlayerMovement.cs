@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
-public class PlayerMovement : MonoBehaviour
+public class PlayerMovement : MonoBehaviourPunCallbacks
 {
     [SerializeField]
     private float _speed;
@@ -15,7 +16,7 @@ public class PlayerMovement : MonoBehaviour
     {
         _rb = GetComponent<Rigidbody>();
         if (_rb is null)
-            Debug.LogError("Rigidbody is NULL!");
+            Debug.LogError("Rigidbody is " + _rb  + "!");
     }
 
     private void Start()
@@ -25,7 +26,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (canMove)
+        if (canMove && photonView.IsMine)
         {
             _moveInput = _playerActions.PlayerMovement.Movement.ReadValue<Vector3>();
             _rb.velocity = _moveInput * _speed;

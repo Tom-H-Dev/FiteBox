@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dce526fffd14b31448505e6c3e22c3af, type: 3}
   m_Name: Local Player Info
   m_EditorClassIdentifier: 
-  playerName: 3432
-  playerWins: 2
-  playerKills: 2
-  playerDeaths: 3
-  playerKDRatio: 3
+  playerName: 1
+  playerWins: 0
+  playerKills: 0
+  playerDeaths: 0
+  playerKDRatio: 0

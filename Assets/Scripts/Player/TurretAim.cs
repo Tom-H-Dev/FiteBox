@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public class TurretAim : MonoBehaviourPunCallbacks
+public class TurretAim : MonoBehaviourPunCallbacks, IPunObservable
 {
     private GameObject _playerTurret;
     private Vector2 mousePOs;
@@ -19,6 +19,7 @@ public class TurretAim : MonoBehaviourPunCallbacks
 
     void Start()
     {
+        mainCam = FindObjectOfType<Camera>();
         _playerTurret = gameObject;
         _playerActions = PlayerInputManager.instance.playerActions;
         _playerActions.PlayerCombat.Shoot.performed += ctx => ShootTurret();
@@ -26,10 +27,12 @@ public class TurretAim : MonoBehaviourPunCallbacks
 
     void Update()
     {
-        if (photonView.IsMine)
+        if (photonView.IsMine == false && PhotonNetwork.IsConnected == true)
         {
-            TurretRotaion();
+            return;
         }
+        TurretRotaion();
+        
     }
 
     private void TurretRotaion()
@@ -51,9 +54,13 @@ public class TurretAim : MonoBehaviourPunCallbacks
 
     private void ShootTurret()
     {
-        if (!hasShot && photonView.IsMine)
+        if (photonView.IsMine == false && PhotonNetwork.IsConnected == true)
         {
-            GameObject l_bullet = Instantiate(_bullet, _shootPosition.transform.position, _shootPosition.transform.rotation);
+            return;
+        }
+        if (!hasShot)
+        {
+            GameObject l_bullet = Instantiate(_bullet, _shootPosition.transform.position, transform.rotation);
             hasShot = true;
             StartCoroutine(ShotTimer());
         }
@@ -64,4 +71,22 @@ public class TurretAim : MonoBehaviourPunCallbacks
         yield return new WaitForSeconds(0.5f);
         hasShot = false;
     }
+
+    #region IPunObservable implementation
+
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
+        if (stream.IsWriting)
+        {
+            // We own this player: send the others our data
+            stream.SendNext(hasShot);
+        }
+        else
+        {
+            // Network player, receive data
+            this.hasShot = (bool)stream.ReceiveNext();
+        }
+    }
+
+    #endregion
 }

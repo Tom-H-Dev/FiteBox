@@ -20,7 +20,11 @@ public class SimplePlayerController : MonoBehaviour
     private void FixedUpdate()
     {
         _moveInput = _playerActions.PlayerMovement.Movement.ReadValue<Vector3>();
+        Vector3 l_rotateInput = _playerActions.PlayerMovement.Movement.ReadValue<Vector3>();
+        
         //Vector3 l_moveInput = new Vector3(_moveInput.x, , _moveInput.z);  //If use _rb.velocyity.y the player will move at mach 999 downwards and bread the floor
         _rb.velocity = _moveInput * _speed;
+        transform.Rotate(new Vector3(0, 14 * l_rotateInput.x, 0) * Time.deltaTime * 4.5f, Space.Self);
+
     }
 }

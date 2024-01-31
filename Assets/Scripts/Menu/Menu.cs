@@ -1,6 +1,6 @@
+using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
-using System.Runtime.InteropServices;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -33,7 +33,7 @@ public class Menu : MonoBehaviour
         SceneManager.LoadScene(l_sceneName);
     }
 
-    public void ChoosePlayerName()
+    public void ChoosePlayerName(GameObject l_gameObject)
     {
         if (nameInputField.text == "")
         {
@@ -42,11 +42,16 @@ public class Menu : MonoBehaviour
         else
         {
             playerInfo.playerName = nameInputField.text;
+            PhotonNetwork.NickName = nameInputField.text;
             playerInfo.playerWins = 0;
             playerInfo.playerKills = 0;
             playerInfo.playerDeaths = 0;
             playerInfo.playerKDRatio = 0;
             errorText.text = string.Empty;
+            //clear selected object
+            EventSystem.current.SetSelectedGameObject(null);
+            //Set a new selected object
+            EventSystem.current.SetSelectedGameObject(l_gameObject);
             chooseName.SetActive(false);
         }
     }

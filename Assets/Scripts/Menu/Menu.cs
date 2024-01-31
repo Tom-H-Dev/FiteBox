@@ -1,8 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class Menu : MonoBehaviour
 {
@@ -46,5 +49,24 @@ public class Menu : MonoBehaviour
             errorText.text = string.Empty;
             chooseName.SetActive(false);
         }
+    }
+
+    [Header("Join The Lobby By ID UI")]
+    [SerializeField] private TMP_InputField _lobbyCodeInputField;
+    [SerializeField] private Button _lobbyJoinButton;
+
+    public void LobbyIDChange()
+    {
+        if (_lobbyCodeInputField.text != "")
+            _lobbyJoinButton.interactable = true;
+        else _lobbyJoinButton.interactable = false;
+    }
+
+    public void ControllerMenuNAvigate(GameObject l_gameObject)
+    {
+        //clear selected object
+        EventSystem.current.SetSelectedGameObject(null);
+        //Set a new selected object
+        EventSystem.current.SetSelectedGameObject(l_gameObject);
     }
 }

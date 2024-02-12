@@ -226,6 +226,15 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""RotateTurret"",
+                    ""type"": ""Value"",
+                    ""id"": ""675231fe-481e-4c60-8896-3a31befc6e98"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -250,6 +259,116 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""action"": ""Shoot"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""ControllerInput"",
+                    ""id"": ""f46ad224-d18b-450b-a9ac-36183a6ed58f"",
+                    ""path"": ""2DVector"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""RotateTurret"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""up"",
+                    ""id"": ""7b6ccd7c-1c7f-499f-a2fb-c4e54a32ff5b"",
+                    ""path"": """",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""RotateTurret"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""down"",
+                    ""id"": ""19ccaadd-c019-483c-ae47-15f997ef885c"",
+                    ""path"": """",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""RotateTurret"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""left"",
+                    ""id"": ""e0628cf7-da37-4cd6-b046-7adac3b0cce8"",
+                    ""path"": ""<Gamepad>/rightStick/left"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""RotateTurret"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""right"",
+                    ""id"": ""872f39cf-4e7f-4b33-b7bd-ca73ddd336a8"",
+                    ""path"": ""<Gamepad>/rightStick/right"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""RotateTurret"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""KeyboardInput"",
+                    ""id"": ""182348d2-11bd-49be-98b6-aa92ff6c5947"",
+                    ""path"": ""2DVector"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""RotateTurret"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""up"",
+                    ""id"": ""c5b1b06b-804b-4fcf-803b-a012124a5afa"",
+                    ""path"": """",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""RotateTurret"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""down"",
+                    ""id"": ""1c84cc19-9f70-407a-ab97-ef12bb886b1d"",
+                    ""path"": """",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""RotateTurret"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""left"",
+                    ""id"": ""15b1b207-fa16-4c44-83e5-91bf76183761"",
+                    ""path"": ""<Keyboard>/q"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""RotateTurret"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""right"",
+                    ""id"": ""3a78c056-fe5a-4e32-bde1-a19f11741d34"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""RotateTurret"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
                 }
             ]
         }
@@ -263,6 +382,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         // PlayerCombat
         m_PlayerCombat = asset.FindActionMap("PlayerCombat", throwIfNotFound: true);
         m_PlayerCombat_Shoot = m_PlayerCombat.FindAction("Shoot", throwIfNotFound: true);
+        m_PlayerCombat_RotateTurret = m_PlayerCombat.FindAction("RotateTurret", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -379,11 +499,13 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
     private readonly InputActionMap m_PlayerCombat;
     private List<IPlayerCombatActions> m_PlayerCombatActionsCallbackInterfaces = new List<IPlayerCombatActions>();
     private readonly InputAction m_PlayerCombat_Shoot;
+    private readonly InputAction m_PlayerCombat_RotateTurret;
     public struct PlayerCombatActions
     {
         private @PlayerInput m_Wrapper;
         public PlayerCombatActions(@PlayerInput wrapper) { m_Wrapper = wrapper; }
         public InputAction @Shoot => m_Wrapper.m_PlayerCombat_Shoot;
+        public InputAction @RotateTurret => m_Wrapper.m_PlayerCombat_RotateTurret;
         public InputActionMap Get() { return m_Wrapper.m_PlayerCombat; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -396,6 +518,9 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
             @Shoot.started += instance.OnShoot;
             @Shoot.performed += instance.OnShoot;
             @Shoot.canceled += instance.OnShoot;
+            @RotateTurret.started += instance.OnRotateTurret;
+            @RotateTurret.performed += instance.OnRotateTurret;
+            @RotateTurret.canceled += instance.OnRotateTurret;
         }
 
         private void UnregisterCallbacks(IPlayerCombatActions instance)
@@ -403,6 +528,9 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
             @Shoot.started -= instance.OnShoot;
             @Shoot.performed -= instance.OnShoot;
             @Shoot.canceled -= instance.OnShoot;
+            @RotateTurret.started -= instance.OnRotateTurret;
+            @RotateTurret.performed -= instance.OnRotateTurret;
+            @RotateTurret.canceled -= instance.OnRotateTurret;
         }
 
         public void RemoveCallbacks(IPlayerCombatActions instance)
@@ -428,5 +556,6 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
     public interface IPlayerCombatActions
     {
         void OnShoot(InputAction.CallbackContext context);
+        void OnRotateTurret(InputAction.CallbackContext context);
     }
 }

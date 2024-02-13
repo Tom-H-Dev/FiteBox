@@ -1,4 +1,5 @@
 using Com.MyCompany.MyGame;
+using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -21,7 +22,7 @@ public class BulletController : MonoBehaviour
 
     void Update()
     {
-        rb.velocity = transform.forward * 20;
+        rb.velocity = transform.forward * 30;
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -29,7 +30,7 @@ public class BulletController : MonoBehaviour
         _explosionParticles.SetActive(true);
         _propultionParticles.SetActive(false);
         for (int i = 0; i < _renderers.Count; i++)
-            _renderers[i].enabled = false;
+            _renderers[i].enabled = false;  
         Destroy(gameObject, 0.65f);
     }
 

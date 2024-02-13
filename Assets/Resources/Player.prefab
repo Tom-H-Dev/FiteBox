@@ -910,6 +910,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _turret: {fileID: 1490621055352808335}
+  _shootPos: {fileID: 418089715715571201}
+  Bullet: {fileID: 3290275376634853733, guid: 94a34bdbd30e2424f9a460c8580fdeca, type: 3}
 --- !u!114 &55893138281864456
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2193,7 +2195,7 @@ Transform:
   m_GameObject: {fileID: 6774560557684921522}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.05333318, y: 0.00000011920929, z: 0.54898787}
+  m_LocalPosition: {x: 0.05333318, y: 0.00000011920929, z: 0.7156545}
   m_LocalScale: {x: 1.1111112, y: 1.1111112, z: 0.16666664}
   m_ConstrainProportionsScale: 0
   m_Children: []

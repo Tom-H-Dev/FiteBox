@@ -1518,7 +1518,7 @@ MonoBehaviour:
   _lobbyName: {fileID: 1835977321}
   _userNames: {fileID: 1091054257}
   _startGameButton: {fileID: 88951501}
-  _debugMode: 1
+  _debugMode: 0
 --- !u!4 &1890956894
 Transform:
   m_ObjectHideFlags: 0

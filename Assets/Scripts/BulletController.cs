@@ -12,6 +12,7 @@ public class BulletController : MonoBehaviour
     [SerializeField] private GameObject _propultionParticles;
     [SerializeField] private GameObject _explosionParticles;
     [SerializeField] private List<Renderer> _renderers = new List<Renderer>();
+    private bool _isDead = false;
     void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -22,13 +23,16 @@ public class BulletController : MonoBehaviour
 
     void Update()
     {
-        rb.velocity = transform.forward * 30;
+        if (!_isDead)
+            rb.velocity = transform.forward * 30;
     }
 
     private void OnCollisionEnter(Collision collision)
     {
         _explosionParticles.SetActive(true);
         _propultionParticles.SetActive(false);
+        rb.isKinematic = true;
+        _isDead = true;
         for (int i = 0; i < _renderers.Count; i++)
             _renderers[i].enabled = false;  
         Destroy(gameObject, 0.65f);

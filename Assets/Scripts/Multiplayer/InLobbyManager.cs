@@ -98,6 +98,6 @@ public class InLobbyManager : MonoBehaviourPunCallbacks
 
     public void StartGameButton()
     {
-        PhotonNetwork.LoadLevel("SampleScene");
+        PhotonNetwork.LoadLevel("Tanks");
     }
 }

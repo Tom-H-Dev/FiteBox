@@ -1,17 +1,18 @@
-using System;
 using System.Collections;
-
 using UnityEngine;
 using UnityEngine.SceneManagement;
-
 using Photon.Pun;
 using Photon.Realtime;
+using System.Collections.Generic;
 
 namespace Com.MyCompany.MyGame
 {
     public class GameManager : MonoBehaviourPunCallbacks
     {
         public static GameManager instance;
+
+        [SerializeField] private List<Transform> _spawnPoints;
+
         private void Awake()
         {
             if (instance != null)
@@ -32,13 +33,18 @@ namespace Com.MyCompany.MyGame
             {
                 //if (PlayerManager.LocalPlayerInstance == null)
                 //{
-                    //Debug.LogFormat("We are Instantiating LocalPlayer from {0}", SceneManagerHelper.ActiveSceneName);
-                    // we're in a room. spawn a character for the local player. it gets synced by using PhotonNetwork.Instantiate
-                    PhotonNetwork.Instantiate(playerPrefab.name, new Vector3(0f, 3f, 0f), Quaternion.identity, 0);
+                //Debug.LogFormat("We are Instantiating LocalPlayer from {0}", SceneManagerHelper.ActiveSceneName);
+                // we're in a room. spawn a character for the local player. it gets synced by using PhotonNetwork.Instantiate
+
+                if (PhotonNetwork.IsMasterClient)
+                    PhotonNetwork.Instantiate(playerPrefab.name, _spawnPoints[0].position, Quaternion.identity, 0);
+                else
+                    PhotonNetwork.Instantiate(playerPrefab.name, _spawnPoints[1].position, Quaternion.identity, 0);
+
                 //}
                 //else
                 //{
-                    //Debug.LogFormat("Ignoring scene load for {0}", SceneManagerHelper.ActiveSceneName);
+                //Debug.LogFormat("Ignoring scene load for {0}", SceneManagerHelper.ActiveSceneName);
                 //}
             }
         }
@@ -80,7 +86,7 @@ namespace Com.MyCompany.MyGame
         #endregion
 
         #region Public Methods
-        
+
         public void LeaveRoom()
         {
             PhotonNetwork.LeaveRoom();

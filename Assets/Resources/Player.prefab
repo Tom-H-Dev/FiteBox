@@ -1039,7 +1039,8 @@ MonoBehaviour:
   - {fileID: 4098020691291384607}
   - {fileID: 2453339082323913002}
   - {fileID: 4558204842790257460}
-  localObjects: []
+  localObjects:
+  - {fileID: 4612661721130888218}
   turret: {fileID: 1490621055352808335}
 --- !u!114 &2453339082323913002
 MonoBehaviour:
@@ -1081,6 +1082,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _deathText: {fileID: 1180087527518478142}
+  _maxHealth: 3
+  _currentHealth: 0
 --- !u!1 &2939278669845276496
 GameObject:
   m_ObjectHideFlags: 0

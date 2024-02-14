@@ -1084,6 +1084,10 @@ MonoBehaviour:
   _deathText: {fileID: 1180087527518478142}
   _maxHealth: 3
   _currentHealth: 0
+  _tankMaterials:
+  - {fileID: 2100000, guid: e51b3fff43cb99849b06a826b6f270ec, type: 2}
+  - {fileID: 2100000, guid: 081239f160c1eff42b54080156772652, type: 2}
+  - {fileID: 2100000, guid: 95f0b051c834ecf49bad7a3f6eca06f5, type: 2}
 --- !u!1 &2939278669845276496
 GameObject:
   m_ObjectHideFlags: 0
